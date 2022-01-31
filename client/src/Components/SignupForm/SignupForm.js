@@ -11,15 +11,17 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import UserSignupFormvalidationSchema from "../../FormValidations/SignupFormValidation";
 import authAxios from "../../Utils/axios-header";
 
+
 const theme = createTheme();
 
 const SignupForm = () => {
+  const navigate = useNavigate()
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(UserSignupFormvalidationSchema),
   });
@@ -30,7 +32,9 @@ const SignupForm = () => {
     data
     });
 
-    console.log(response);
+    if(response.status === 200){
+      navigate('/login')
+    }
   };
 
   return (

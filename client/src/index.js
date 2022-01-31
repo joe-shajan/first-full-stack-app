@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter as Router } from "react-router-dom";
+import Context from "../src/contexts/userContext"
 
 ReactDOM.render(
-  <Router>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Router>,
+  <React.StrictMode>
+    <Context>
+      <Router>
+        <App />
+      </Router>
+    </Context>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,11 +14,14 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import UserLoginFormvalidationSchema from "../../FormValidations/LoginFormValidation";
 import { useNavigate } from "react-router-dom";
-import { userLogin } from "../../services/auth-services";
+import { adminLogin, userLogin } from "../../services/auth-services";
+import { AuthContext } from "../../contexts/userContext";
 
 const theme = createTheme();
 
 export default function LoginForm(props) {
+
+  const { setUser } = useContext(AuthContext);
   let navigate = useNavigate();
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(UserLoginFormvalidationSchema),
@@ -26,8 +29,21 @@ export default function LoginForm(props) {
 
 
   const onSubmit = async (data) => {
-    const respose =await userLogin(data)
-    if (respose) { navigate('/') }
+    if (props.user) {
+      const email = await userLogin(data)
+      if (email) {
+        setUser(email)
+        navigate('/')
+      }
+    } else {
+      const email = await adminLogin(data)
+      if (email) {
+        console.log('email');
+        // setUser(email)
+        navigate('/admin/home')
+      }
+    }
+
   };
 
 

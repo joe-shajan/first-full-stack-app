@@ -10,7 +10,7 @@ const Posts = () => {
     PostService.getAllPrivatePosts()
     .then(
       (response) => {
-          console.log(response.data);
+          
         setPrivatePosts(response.data);
       },
       (error) => {
